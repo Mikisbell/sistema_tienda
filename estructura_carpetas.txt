@@ -1,0 +1,95 @@
+├── app
+│   ├── config
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   └── settings.cpython-312.pyc
+│   │   └── settings.py
+│   ├── core
+│   │   ├── __init__.py
+│   │   ├── security.py
+│   │   └── utils.py
+│   ├── db
+│   │   ├── base.py
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   └── session.cpython-312.pyc
+│   │   └── session.py
+│   ├── exceptions
+│   │   ├── custom_exceptions.py
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── logging
+│   │   ├── __init__.py
+│   │   └── logger.py
+│   ├── main.py
+│   ├── models
+│   │   ├── categorias.py
+│   │   ├── clientes.py
+│   │   ├── __init__.py
+│   │   ├── productos.py
+│   │   ├── usuarios.py
+│   │   └── ventas.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-312.pyc
+│   │   └── main.cpython-312.pyc
+│   ├── repositories
+│   │   ├── categorias.py
+│   │   ├── clientes.py
+│   │   ├── __init__.py
+│   │   ├── productos.py
+│   │   ├── usuarios.py
+│   │   └── ventas.py
+│   ├── routers
+│   │   ├── auth.py
+│   │   ├── categorias.py
+│   │   ├── clientes.py
+│   │   ├── __init__.py
+│   │   ├── productos.py
+│   │   ├── __pycache__
+│   │   │   ├── auth.cpython-312.pyc
+│   │   │   ├── categorias.cpython-312.pyc
+│   │   │   ├── clientes.cpython-312.pyc
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   ├── productos.cpython-312.pyc
+│   │   │   └── ventas.cpython-312.pyc
+│   │   └── ventas.py
+│   ├── schemas
+│   │   ├── auth.py
+│   │   ├── categorias.py
+│   │   ├── clientes.py
+│   │   ├── __init__.py
+│   │   ├── productos.py
+│   │   └── ventas.py
+│   └── services
+│       ├── auth.py
+│       ├── categorias.py
+│       ├── clientes.py
+│       ├── __init__.py
+│       ├── productos.py
+│       └── ventas.py
+├── docker-compose.yml
+├── Dockerfile
+├── estructura_carpetas.txt
+├── main.py
+├── __pycache__
+│   └── main.cpython-312.pyc
+├── README.md
+├── requirements.txt
+├── tests
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-312.pyc
+│   │   ├── test_auth.cpython-312-pytest-8.3.5.pyc
+│   │   ├── test_categorias.cpython-312-pytest-8.3.5.pyc
+│   │   ├── test_clientes.cpython-312-pytest-8.3.5.pyc
+│   │   ├── test_productos.cpython-312-pytest-8.3.5.pyc
+│   │   └── test_ventas.cpython-312-pytest-8.3.5.pyc
+│   ├── test_auth.py
+│   ├── test_categorias.py
+│   ├── test_clientes.py
+│   ├── test_productos.py
+│   └── test_ventas.py
+└── venv
+├── .env
