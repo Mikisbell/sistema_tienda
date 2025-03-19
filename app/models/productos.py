@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Boolean
+# app/models/productos.py
+from sqlalchemy import Column, Integer, String, Float, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from app.db.base import Base
 
@@ -10,6 +11,6 @@ class Producto(Base):
     precio = Column(Float)
     stock = Column(Integer)
     categoria_id = Column(Integer, ForeignKey("categorias.id"))
-    activo = Column(Boolean, default=True)  # Nuevo campo para marcar productos como activos/inactivos
+    activo = Column(Boolean, default=True)
 
     categoria = relationship("Categoria", back_populates="productos")

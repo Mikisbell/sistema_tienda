@@ -1,11 +1,16 @@
+# app/repositories/productos.py
 from sqlalchemy.orm import Session
 from app.models.productos import Producto
 from app.schemas.productos import ProductoCreate, ProductoUpdate
 
+# app/repositories/productos.py 
+from sqlalchemy.orm import Session
+from app.models.productos import Producto  # Asegúrate de importar el modelo aquí
+
 class ProductoRepository:
     def __init__(self, db: Session):
         self.db = db
-
+    # ... otras funciones del repositorio ...
     def obtener_productos(self):
         return self.db.query(Producto).all()
 

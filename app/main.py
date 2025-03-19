@@ -1,34 +1,44 @@
 # app/main.py
-# Importa FastAPI para crear la aplicación
 from fastapi import FastAPI
-# Importa engine y Base desde app.db.session para manejar la base de datos
 from app.db.session import engine, Base
-# Importa los routers de productos y clientes
-from app.routers import productos, clientes
-from app.routers import categorias
-from app.routers import ventas
-from app.routers import auth
+from app.routers import productos, clientes, categorias, ventas, auth
+from fastapi.middleware.cors import CORSMiddleware
 
-# Crea una instancia de la aplicación FastAPI
-app = FastAPI()
+app = FastAPI(
+    title="Sistema de Tienda API",
+    description="API para gestionar productos, categorías, ventas y clientes.",
+    version="0.1.0",
+)
 
-# Incluye los routers
-# Incluye el router de productos en la aplicación
 app.include_router(productos.router)
 app.include_router(categorias.router)
 app.include_router(ventas.router)
-# Incluye el router de clientes en la aplicación
 app.include_router(clientes.router)
 app.include_router(auth.router)
 
-
-# Crear las tablas en la base de datos (solo para desarrollo)
-Base.metadata.create_all(bind=engine)
-
-# Define una ruta para el endpoint raíz
 @app.get("/")
 def read_root():
-    """
-    Endpoint raíz que devuelve un mensaje de bienvenida.
-    """
     return {"message": "¡Hola, mundo!"}
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from dotenv import load_dotenv
+
+load_dotenv()
+
+class Settings(BaseSettings):
+    database_url: str
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+
+settings = Settings()
+
+# Create the tables only if the script is run directly
+if __name__ == "__main__":
+    Base.metadata.create_all(bind=engine)
