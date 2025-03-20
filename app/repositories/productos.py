@@ -27,7 +27,8 @@ class ProductoRepository:
     def actualizar_producto(self, producto_id: int, producto: ProductoUpdate):
         db_producto = self.obtener_producto_por_id(producto_id)
         if db_producto:
-            for key, value in producto.dict().items():
+            #for key, value in producto.dict().items():
+            for key, value in producto.model_dump().items():
                 setattr(db_producto, key, value)
             self.db.commit()
             self.db.refresh(db_producto)

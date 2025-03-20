@@ -9,12 +9,12 @@ from app.services.productos import ProductoService
 
 router = APIRouter()
 
-@router.get("/productos", response_model=list[Producto], summary="Listar productos", description="Obtiene una lista de todos los productos activos.")
+@router.get("/", response_model=list[Producto], summary="Listar productos", description="Obtiene una lista de todos los productos activos.")
 def listar_productos(db: Session = Depends(get_db)):
     producto_service = ProductoService(db)
     return producto_service.obtener_productos()
 
-@router.get("/productos/{producto_id}", response_model=Producto, summary="Obtener producto", description="Obtiene un producto por su ID.")
+@router.get("/{producto_id}", response_model=Producto, summary="Obtener producto", description="Obtiene un producto por su ID.")
 def obtener_producto(producto_id: int, db: Session = Depends(get_db)):
     producto_service = ProductoService(db)
     producto = producto_service.obtener_producto_por_id(producto_id)
@@ -25,12 +25,12 @@ def obtener_producto(producto_id: int, db: Session = Depends(get_db)):
         )
     return producto
 
-@router.post("/productos", response_model=Producto, status_code=status.HTTP_201_CREATED, summary="Crear producto", description="Crea un nuevo producto.")
+@router.post("/", response_model=Producto, status_code=status.HTTP_201_CREATED, summary="Crear producto", description="Crea un nuevo producto.")
 def crear_producto(producto: ProductoCreate, db: Session = Depends(get_db)):
     producto_service = ProductoService(db)
     return producto_service.crear_producto(producto)
 
-@router.put("/productos/{producto_id}", response_model=Producto, summary="Actualizar producto", description="Actualiza un producto existente.")
+@router.put("/{producto_id}", response_model=Producto, summary="Actualizar producto", description="Actualiza un producto existente.")
 def actualizar_producto(producto_id: int, producto: ProductoUpdate, db: Session = Depends(get_db)):
     producto_service = ProductoService(db)
     return producto_service.actualizar_producto(producto_id, producto)
@@ -40,7 +40,7 @@ def actualizar_producto(producto_id: int, producto: ProductoUpdate, db: Session 
 
 
 
-@router.delete("/productos/{producto_id}")
+@router.delete("/{producto_id}")
 def marcar_producto_como_inactivo(producto_id: int, db: Session = Depends(get_db)):
     producto_service = ProductoService(db)
     producto_service.marcar_producto_como_inactivo(producto_id)
@@ -52,7 +52,7 @@ def marcar_producto_como_inactivo(producto_id: int, db: Session = Depends(get_db
 
 
 
-@router.put("/productos/{producto_id}/reactivar", response_model=Producto, summary="Reactivar producto", description="Reactivar un producto marcado como inactivo.")
+@router.put("/{producto_id}/reactivar", response_model=Producto, summary="Reactivar producto", description="Reactivar un producto marcado como inactivo.")
 def reactivar_producto(producto_id: int, db: Session = Depends(get_db)):
     producto_service = ProductoService(db)
     return producto_service.marcar_producto_como_activo(producto_id)

@@ -1,11 +1,11 @@
-# Importa APIRouter de FastAPI para crear rutas
+# app/routers/clientes.py
 from fastapi import APIRouter
 
 # Crea un router para los endpoints de clientes
 router = APIRouter()
 
 # Endpoint para listar clientes
-@router.get("/clientes")
+@router.get("/")
 def listar_clientes():
     """
     Devuelve una lista de clientes.
@@ -13,7 +13,7 @@ def listar_clientes():
     return {"message": "Lista de clientes"}
 
 # Endpoint para crear un nuevo cliente
-@router.post("/clientes")
+@router.post("/")
 def crear_cliente():
     """
     Crea un nuevo cliente.
@@ -21,7 +21,7 @@ def crear_cliente():
     return {"message": "Cliente creado"}
 
 # Endpoint para obtener los detalles de un cliente específico
-@router.get("/clientes/{cliente_id}")
+@router.get("/{cliente_id}")
 def obtener_cliente(cliente_id: int):
     """
     Devuelve los detalles de un cliente específico.

@@ -1,4 +1,5 @@
 # test_productos.py
+# test_productos.py
 import pytest
 from fastapi import HTTPException, status
 from app.models.productos import Producto
@@ -12,7 +13,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy import create_engine
 from app.db.base import SessionLocal as BaseSessionLocal, get_db, Base  # Importa Base aquí
 #from app.db.base import Base
-
+from app.config.settings import settings
 
 
 @pytest.fixture
@@ -41,7 +42,6 @@ def test_reactivar_producto_existente(db):
 
     # Verificar que el producto está activo
     assert producto_reactivado.activo is True
-
 
 
 
@@ -117,7 +117,7 @@ def test_reactivar_producto_ya_activo(client, db):
     db.refresh(producto_activo)  # Añade esta línea
 
     # Intentar reactivar el producto ya activo
-    response = client.put(f"/productos/{producto_activo.id}/reactivar")
+    response = client.put(f"{settings.api_prefix}/productos/{producto_activo.id}/reactivar")
 
     if response.status_code != status.HTTP_400_BAD_REQUEST:
         print(f"\n--- Respuesta inesperada ({response.status_code}): {response.json()} ---")
@@ -144,6 +144,7 @@ def test_import_product_create():
 
 def test_listar_productos(client, db):
     """Test para verificar la lista de productos, enfocándose en los creados en este test."""
+    print("¡Entrando a test_listar_productos!")
     # No necesitas sobreescribir la dependencia aquí, ya que la fixture 'db' ya usa la base de datos de prueba
     # app.dependency_overrides[get_db] = override_get_db
 
@@ -161,9 +162,10 @@ def test_listar_productos(client, db):
     db.refresh(producto2)
 
     # Llamar al endpoint para listar productos
-    response = client.get("/productos")
+    response = client.get(f"{settings.api_prefix}/productos")
     assert response.status_code == status.HTTP_200_OK
     response_data = response.json()
+    #print(f"Prefijo de la API en las pruebas: {settings.api_prefix}")
     print(f"Respuesta de la API: {response_data}")
 
     # Verificar que los productos que creaste están en la respuesta
@@ -178,7 +180,7 @@ def test_listar_productos(client, db):
 def test_crear_producto_con_datos_invalidos(client):
     """Test para verificar el manejo de datos inválidos al crear un producto."""
     # Intentar crear un producto con precio negativo
-    response = client.post("/productos", json={
+    response = client.post(f"{settings.api_prefix}/productos", json={
         "nombre": "Producto Inválido",
         "precio": -10.0,
         "stock": 5,
@@ -195,7 +197,7 @@ def test_actualizar_producto(client, db):
     db.refresh(producto)
 
     # Actualizar el producto
-    response = client.put(f"/productos/{producto.id}", json={
+    response = client.put(f"{settings.api_prefix}/productos/{producto.id}", json={
         "nombre": "Producto Actualizado",
         "precio": 20.0,
         "stock": 10,

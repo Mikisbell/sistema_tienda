@@ -1,4 +1,4 @@
-# File: conftest.py 
+# conftest.py
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -6,7 +6,7 @@ from app.db.base import Base
 from app.config.settings import settings as app_settings
 from app.models.productos import Producto
 
-TEST_DATABASE_URL = "sqlite:///./test.db"  # Define la URL para la base de datos de prueba
+TEST_DATABASE_URL = "sqlite:///:memory:"  # Use an in-memory database
 
 @pytest.fixture(scope="session")
 def settings():
@@ -29,6 +29,9 @@ def db(SessionLocal, engine):
     session = SessionLocal(bind=connection)
     try:
         print("\n--- Antes del test ---")
+        Base.metadata.drop_all(bind=engine)  # Elimina las tablas existentes
+        Base.metadata.create_all(bind=engine)  # Crea las tablas de nuevo
+        print("--- Base de datos recreada ---")
         count_before = session.query(Producto).count()
         print(f"Número de productos antes del test: {count_before}")
         yield session
@@ -46,12 +49,6 @@ def db(SessionLocal, engine):
         print(f"Número de productos después del rollback: {count_after_rollback}")
         session_after_rollback.close()
         connection_after_rollback.close()
-
-
-
-
-
-
 
 @pytest.fixture(scope="function")
 def client(db):  # Inject the 'db' fixture here
@@ -82,17 +79,10 @@ def client(db):  # Inject the 'db' fixture here
     with TestClient(app) as client:
         yield client
 
-
-
-
-
-
-
 @pytest.fixture(scope="session", autouse=True)
 def create_test_database(engine):
-    print("\n--- Creando la base de datos de prueba ---")
-    Base.metadata.create_all(bind=engine)
-    print("--- Tablas creadas en la base de datos de prueba ---")
+    # Ya no necesitamos crear las tablas aquí, lo haremos en el fixture 'db'
+    print("\n--- Configuración inicial de la base de datos de prueba ---")
     yield
     # Opcional: Si quieres eliminar las tablas después de cada sesión de tests
     # Base.metadata.drop_all(bind=engine)
